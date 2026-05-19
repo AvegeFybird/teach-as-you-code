@@ -22,7 +22,7 @@ It defines when the Skill intervenes, how it routes requests, how it structures 
 The Skill has three core design ideas:
 
 1. Strict opt-in activation
-2. A two-axis explanation model: `Mode x Audience Profile`
+2. A three-dimensional output model: `Mode x Audience Profile x Output Depth`
 3. Output safety controls for large diffs, long code, and long sessions
 
 ### 2.1 High-Level Flow
@@ -31,7 +31,7 @@ The Skill has three core design ideas:
 User request
   -> Does it explicitly ask for teach-as-you-code or "this Skill"?
       -> No: answer normally; do not use this Skill.
-      -> Yes: route by Mode and Audience Profile.
+      -> Yes: route by Mode, Audience Profile, and Output Depth.
   -> Determine Mode:
       -> future coding work: Teaching Card Mode
       -> existing changes/diff: Diff Walkthrough Mode
@@ -40,6 +40,11 @@ User request
       -> beginner/non-CS/detailed: Novice
       -> unspecified or some foundation: Intermediate
       -> engineering/review/risk/tradeoffs: Engineer
+  -> Determine Output Depth:
+      -> unspecified: Standard
+      -> shorter / summary: Compact
+      -> very detailed / deep dive: Deep
+      -> line-by-line / explain everything: Exhaustive
   -> Determine input size:
       -> small: one focused card
       -> medium: grouped cards
@@ -48,12 +53,15 @@ User request
   -> Accept in-context controls such as "shorter", "deep detail", "exhaustive line-by-line", "switch to engineer profile", or "turn off"
 ```
 
-### 2.2 Two-Axis Model
+### 2.2 Three-Dimensional Output Model
 
 ```text
 Mode = what situation is being explained.
-Audience Profile = how deeply and from which perspective it is explained.
+Audience Profile = which learner level and perspective to use.
+Output Depth = how detailed the output should be.
 ```
+
+These three dimensions jointly determine the final answer. `Standard` is not a Profile; it is the default Output Depth.
 
 Modes:
 
@@ -66,6 +74,13 @@ Audience Profiles:
 - Novice: concept-first, detailed, beginner-friendly.
 - Intermediate: reasoning-first, balanced depth, default profile.
 - Engineer: tradeoff-first, risk-aware, architecture-oriented.
+
+Output Depths:
+
+- Compact: short version, keeping only the learning-critical path, risks, and takeaways.
+- Standard: default depth, using the suggested length budgets.
+- Deep: deeper explanation of principles, tradeoffs, data/control flow, and transfer patterns.
+- Exhaustive: complete walkthrough for line-by-line, block-by-block, or highly detailed review; split large inputs into parts.
 
 ## 3. Activation Policy
 

@@ -48,6 +48,8 @@ Use for future coding work when the user explicitly activates `teach-as-you-code
 
 Produce a Teaching Card after each meaningful learning unit, not after every line. A meaningful learning unit has one clear intent, one explainable technical choice, and one verifiable outcome.
 
+If the user explicitly asks for a Teaching Card to explain a design choice or coding decision, you may produce one focused card even when no new edit is being made.
+
 Good card triggers:
 
 - adding a component
@@ -63,7 +65,7 @@ Skip cards for formatting-only edits, import sorting, trivial copy changes, repe
 
 Use for existing changes, git diffs, or recent AI edits.
 
-When possible, inspect the actual diff before explaining. If diff data is unavailable, state the limitation and use visible code, file contents, editor-provided changes, or conversation history. Do not claim exact before/after differences unless they are visible.
+When possible, inspect the actual diff before explaining. If diff data is unavailable, state the limitation and use visible code, file contents, editor-provided changes, or conversation history. If the user provides a pseudo diff or natural-language change summary, explicitly say the explanation is based on that provided summary. Do not claim exact before/after differences unless they are visible.
 
 Include these elements by default unless the user asks for Compact output or the information is unavailable:
 
@@ -79,7 +81,7 @@ Reading Path answers: "If I want to understand this change, where should I start
 
 Examples: frontend entry -> state/hook -> API/client -> child components -> tests; backend route/controller -> service -> repository/model -> validation/errors -> tests.
 
-Rebuild Path is required by default for Diff Walkthrough Mode. It should be an implementation sequence grouped by intent, not a line-by-line replay. Each step should say where to edit, why it comes next, what should work after it, and what to check if stuck. Include an observable checkpoint or quick verification for each step when possible. For Chinese output, label it as "验证方式"; for English output, label it as "Checkpoint".
+Rebuild Path is required by default for Diff Walkthrough Mode, except in Compact output or when old/new state is not visible. It should be an implementation sequence grouped by intent, not a line-by-line replay. Each step should say where to edit, why it comes next, what should work after it, and what to check if stuck. Include an observable checkpoint or quick verification for each step when possible. For Chinese output, label it as "验证方式"; for English output, label it as "Checkpoint".
 
 ### Code Explanation Mode
 
@@ -87,7 +89,7 @@ Use for code snippets, files, functions, classes, or modules when the user expli
 
 Explain what the code does before discussing improvements. Follow execution flow instead of reading line by line by default. Do not invent surrounding project context when only a snippet is provided.
 
-For long code, summarize the module structure first, identify entry points/core logic/side effects/tests if available, then select important regions for deeper explanation. Avoid line-by-line explanation unless requested.
+For long code, summarize the module structure first, identify entry points/core logic/side effects/tests if available, then select important regions for deeper explanation. Avoid line-by-line explanation unless requested. If Depth is Exhaustive, the explicit depth request overrides the default: explain line by line or block by block, and split into numbered parts when needed.
 
 ## Audience Profiles
 
@@ -117,6 +119,10 @@ When referencing local files, prefer clickable absolute Markdown links with line
 
 ```md
 ## 教学卡片：<short title>
+
+Mode: Teaching Card
+Profile: <Novice | Intermediate | Engineer>
+Depth: <Compact | Standard | Deep | Exhaustive>
 
 ### 1. 改了什么 / 这段代码做什么
 Explain the concrete code change or behavior.
@@ -188,6 +194,10 @@ Explain possible regressions and how to test the change.
 ```md
 ## 代码讲解：<short title>
 
+Mode: Code Explanation
+Profile: <Novice | Intermediate | Engineer>
+Depth: <Compact | Standard | Deep | Exhaustive>
+
 ### 1. 整体作用
 Explain what this code is responsible for.
 
@@ -228,10 +238,10 @@ Suggested budgets:
 
 Output depth:
 
-- Compact: user asks for "shorter", "quick version", or "summary only". Compress output and keep only the learning-critical path, risks, and takeaways.
+- Compact: user asks for "shorter", "quick version", or "summary only". Compress output and keep only the learning-critical path, risks, and takeaways; in Diff Walkthrough Mode, summarize or omit Rebuild Path if it would make the answer too long.
 - Standard: no depth modifier. Use the suggested budgets above.
 - Deep: user explicitly asks for "very detailed", "deep dive", "do not skip details", or "explain the principles". Allow longer explanations and expand concepts, data/control flow, design rationale, alternatives, and transfer patterns.
-- Exhaustive: user explicitly asks for "line by line", "block by block", "explain everything", or "walk every change". Prioritize completeness, but split large code or diffs into numbered parts instead of producing an unreadable wall of text.
+- Exhaustive: user explicitly asks for "line by line", "block by block", "explain everything", or "walk every change". Prioritize completeness, including line-by-line or block-by-block explanation when requested, but split large code or diffs into numbered parts instead of producing an unreadable wall of text.
 
 Deep and Exhaustive must be explicitly requested after activation. Ordinary words such as "beginner", "explain", or "teach me" do not remove size controls.
 

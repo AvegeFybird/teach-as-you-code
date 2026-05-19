@@ -20,7 +20,7 @@ Version 1.0 / 2026-05-18
 它有三个核心设计：
 
 1. 严格显式激活
-2. 双轴解释模型：`Mode x Audience Profile`
+2. 三维输出模型：`Mode x Audience Profile x Output Depth`
 3. 面向大 diff、长代码、长会话的输出安全阀
 
 ### 2.1 总体流程
@@ -29,7 +29,7 @@ Version 1.0 / 2026-05-18
 用户请求
   -> 是否明确要求使用 teach-as-you-code 或“这个 Skill”？
       -> 否：正常回答，不使用本 Skill。
-      -> 是：进入 Mode 和 Audience Profile 路由。
+      -> 是：进入 Mode、Audience Profile 和 Output Depth 路由。
   -> 判断 Mode：
       -> 未来编码过程：Teaching Card Mode
       -> 已有改动 / diff：Diff Walkthrough Mode
@@ -38,6 +38,11 @@ Version 1.0 / 2026-05-18
       -> 小白 / 非 CS / 要求详细：Novice
       -> 未指定 / 有一定基础：Intermediate
       -> 工程视角 / review / 风险 / 取舍：Engineer
+  -> 判断 Output Depth：
+      -> 未指定：Standard
+      -> 简短 / 摘要：Compact
+      -> 非常详细 / 深入：Deep
+      -> 逐行 / 全部讲清楚：Exhaustive
   -> 判断输入规模：
       -> 小：一张聚焦卡片
       -> 中：按学习单元分组
@@ -46,12 +51,15 @@ Version 1.0 / 2026-05-18
   -> 接受上下文内控制，如“简短一点”“非常详细”“逐行讲”“换成工程师档”“关闭”
 ```
 
-### 2.2 双轴模型
+### 2.2 三维输出模型
 
 ```text
 Mode = 解释什么场景。
-Audience Profile = 以什么深度和视角解释。
+Audience Profile = 以什么用户水平和视角解释。
+Output Depth = 输出多详细。
 ```
+
+这三个维度共同决定最终输出。`Standard` 不是 Profile，而是默认 Output Depth。
 
 Modes：
 
@@ -64,6 +72,13 @@ Audience Profiles：
 - Novice：小白档，概念优先，非常详细。
 - Intermediate：有基础档，推理优先，默认档。
 - Engineer：工程师档，取舍优先，关注架构、风险和验证。
+
+Output Depths：
+
+- Compact：简短版，只保留关键学习路径、风险和记忆点。
+- Standard：默认深度，遵守建议长度预算。
+- Deep：深入版，展开原理、取舍、数据流 / 控制流和迁移方法。
+- Exhaustive：完整讲解版，适合逐行、逐块或非常详细的复盘；大输入时应拆成多个 Part。
 
 ## 3. 激活策略
 

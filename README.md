@@ -52,7 +52,7 @@ Use $teach-as-you-code to explain this function from a beginner perspective.
 
 ## How It Works
 
-Skill 激活后，它会根据你的请求选择一个 Mode、一个 Audience Profile 和一个 Output Depth。
+Skill 激活后，它会根据你的请求选择一个 Mode、一个 Audience Profile 和一个 Output Depth。这是一个三维输出模型；`Standard` 属于 Output Depth，不是 Profile。
 
 | What you ask | Mode | Default profile | Default depth |
 |---|---|---|---|
