@@ -99,39 +99,39 @@ Skill 激活后，它会根据你的请求选择一个 Mode、一个 Audience Pr
 Diff Walkthrough Mode 的输出会像这样：
 
 ```md
-## Diff Walkthrough Summary: Phase 7.1 边界收紧
+## Diff Walkthrough 总结：Phase 7.1 边界收紧
 
 Mode: Diff Walkthrough
 Profile: Intermediate
 Depth: Standard
 
-### 1. Goal
+### 1. 改动目标
 这次改动让字段覆盖率评估更严格，避免隐藏的 LLM fallback 被误算成成功。
 
-### 2. Change Map
+### 2. 改动地图
 - `scripts/run_field_coverage_eval.py`：不再接受“只要执行成功”这个宽松标准，而是要求命中 `single_table_query`。
 - `core/single_table.py`：把排序方向前移到 route 对象里。
 - `tests/test_phase7_field_coverage.py`：增加“最低值查询应该升序排序”的回归测试。
 
-### 3. Reading Path
+### 3. 阅读路径
 先看评估脚本。
-Question to answer：这个项目现在把什么行为定义为“真正成功”？
+思考问题：这个项目现在把什么行为定义为“真正成功”？
 
 再看 route 对象和 SQL 生成逻辑。
-Question to answer：自然语言里的排序意图，是在哪一步变成结构化查询信息的？
+思考问题：自然语言里的排序意图，是在哪一步变成结构化查询信息的？
 
-### 4. Rebuild Path
+### 4. 复现路径
 1. 先给 route 增加排序方向字段，因为后面的 SQL 生成需要消费一个结构化值。
-   Checkpoint：route 对象可以同时表达升序和降序的 top records 查询。
+   验证方式：route 对象可以同时表达升序和降序的 top records 查询。
 
 2. 再让 SQL 生成逻辑使用这个 route 字段。
-   Checkpoint：“最低 / lowest” 查询会生成 `ORDER BY ... ASC`。
+   验证方式：“最低 / lowest” 查询会生成 `ORDER BY ... ASC`。
 
 3. 最后收紧评估和测试。
-   Checkpoint：如果 fallback 到 LLM，字段覆盖率评估会失败。
+   验证方式：如果 fallback 到 LLM，字段覆盖率评估会失败。
 
-### 5. Key Teaching Cards
-Teaching Card：防止评估里的静默 fallback
+### 5. 关键教学卡片
+教学卡片：防止评估里的静默 fallback
 ...
 ```
 

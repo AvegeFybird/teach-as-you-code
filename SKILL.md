@@ -75,11 +75,11 @@ Include these elements by default unless the user asks for Compact output or the
 - Learning Order: what to study first and why.
 - Risks and Verification: likely regressions and how to test.
 
-Reading Path answers: "If I want to understand this change, where should I start reading, and what should I read next?" Follow comprehension flow, not alphabetical or raw diff order. For each step, explain why this file or section comes here and include an explicit learner question, such as "Question to answer: Why does this route object now carry sort direction?"
+Reading Path answers: "If I want to understand this change, where should I start reading, and what should I read next?" Follow comprehension flow, not alphabetical or raw diff order. For each step, explain why this file or section comes here and include an explicit learner question. For Chinese output, label it as "思考问题"; for English output, label it as "Question to answer".
 
 Examples: frontend entry -> state/hook -> API/client -> child components -> tests; backend route/controller -> service -> repository/model -> validation/errors -> tests.
 
-Rebuild Path is required by default for Diff Walkthrough Mode. It should be an implementation sequence grouped by intent, not a line-by-line replay. Each step should say where to edit, why it comes next, what should work after it, and what to check if stuck. Include an observable checkpoint or quick verification for each step when possible.
+Rebuild Path is required by default for Diff Walkthrough Mode. It should be an implementation sequence grouped by intent, not a line-by-line replay. Each step should say where to edit, why it comes next, what should work after it, and what to check if stuck. Include an observable checkpoint or quick verification for each step when possible. For Chinese output, label it as "验证方式"; for English output, label it as "Checkpoint".
 
 ### Code Explanation Mode
 
@@ -116,33 +116,33 @@ When referencing local files, prefer clickable absolute Markdown links with line
 ### Teaching Card
 
 ```md
-## Teaching Card: <short title>
+## 教学卡片：<short title>
 
-### 1. What Changed / What This Does
+### 1. 改了什么 / 这段代码做什么
 Explain the concrete code change or behavior.
 
-### 2. Techniques Used
+### 2. 用了什么技术
 Name the concepts, APIs, patterns, or language features involved.
 
-### 3. Why This Approach
+### 3. 为什么这样做
 Explain the local engineering reason for this choice.
 
-### 4. Underlying Principle
+### 4. 底层原理
 Explain how the technique works at the right depth for the selected profile.
 
-### 5. Alternatives
+### 5. 还有哪些替代方案
 List realistic alternatives and when they would fit.
 
-### 6. Why This Fits Here
+### 6. 为什么这里适合
 Tie the choice to the current project constraints, scale, style, or risk profile.
 
-### 7. Transfer Pattern
+### 7. 如何迁移到其他场景
 Explain where the learner can reuse the idea.
 
-### 8. Key Takeaways
+### 8. 关键 takeaway
 Give a concise memory hook or 3-5 key points.
 
-### 9. Practice
+### 9. 小练习
 Give a small exercise when useful; include one by default for Novice.
 ```
 
@@ -151,58 +151,59 @@ Compress sections when the user asks for brevity or when the profile does not ne
 ### Diff Walkthrough Summary
 
 ```md
-## Diff Walkthrough Summary: <short title>
+## Diff Walkthrough 总结：<short title>
 
 Mode: Diff Walkthrough
 Profile: <Novice | Intermediate | Engineer>
 Depth: <Compact | Standard | Deep | Exhaustive>
 
-### 1. Goal
+### 1. 改动目标
 Explain the high-level goal of the change.
 
-### 2. Change Map
+### 2. 改动地图
 Group changes by module, layer, or feature area.
 
-### 3. Reading Path
-Show the recommended order for reading the diff. For each step, include why it comes here and an explicit "Question to answer".
+### 3. 阅读路径
+Show the recommended order for reading the diff. For each step, include why it comes here and an explicit learner question. In Chinese output, format the question as `思考问题：...`.
 
-### 4. Rebuild Path
-Show the recommended order for reproducing the change from the old code. For each step, include where to edit, why this step comes next, what should work afterward, and a checkpoint or quick verification when possible.
+### 4. 复现路径
+Show the recommended order for reproducing the change from the old code. For each step, include where to edit, why this step comes next, what should work afterward, and a checkpoint or quick verification when possible. In Chinese output, format the checkpoint as `验证方式：...`.
 
-### 5. Key Teaching Cards
+### 5. 关键 Teaching Cards
 Select high-learning-value changes and explain them deeply.
+When embedding Teaching Cards inside this section, use `#### 教学卡片：<title>` / `#### Teaching Card: <title>` according to the output language, or use bold text. Do not use `## Teaching Card` because it breaks the parent summary hierarchy.
 
-### 6. Skipped Mechanical Changes
+### 6. 跳过的机械改动
 List low-learning-value edits intentionally summarized.
 
-### 7. Learning Order
+### 7. 建议学习顺序
 Tell the learner what to study first and why.
 
-### 8. Risks and Verification
+### 8. 风险与验证
 Explain possible regressions and how to test the change.
 ```
 
 ### Code Explanation Summary
 
 ```md
-## Code Explanation: <short title>
+## 代码讲解：<short title>
 
-### 1. Overall Purpose
+### 1. 整体作用
 Explain what this code is responsible for.
 
-### 2. Execution Flow
+### 2. 执行流程
 Explain how control flow or data flow moves through the code.
 
-### 3. Core Concepts
+### 3. 核心概念
 Name important APIs, patterns, language features, or framework concepts.
 
-### 4. Key Code Walkthrough
+### 4. 关键代码讲解
 Explain the most important parts without explaining every line by default.
 
-### 5. Watchouts
+### 5. 注意点
 Call out bugs, edge cases, hidden assumptions, or readability issues.
 
-### 6. Transfer or Refactor Path
+### 6. 迁移 / 重构路径
 Explain how to reuse, simplify, or evolve this idea.
 ```
 
@@ -240,7 +241,9 @@ In long sessions, prefer concise cards, do not repeat old explanations unless ne
 
 ## Language
 
-Follow the user's current conversation language by default. Keep common technical terms in English when clearer. Do not hide language choices inside a profile.
+Follow the user's current conversation language by default. If the user is writing in Chinese, use Chinese for user-visible section headings and explanations, keeping only necessary protocol labels and technical terms in English, such as `Mode`, `Profile`, `Depth`, API names, class/function names, and widely used terms like `diff`, `route`, or `fallback`.
+
+The output format examples below use Chinese headings as the default user-facing style. Use English headings only when the user's current conversation language is English or the user asks for English. Do not hide language choices inside a profile.
 
 ## Coexistence With Other Skills
 
