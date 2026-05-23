@@ -34,11 +34,20 @@ After explicit activation, choose one Mode, one Audience Profile, and one Output
 
 Profile modifiers:
 
-- Novice: user says beginner, zero-base, non-CS, self-taught, confused, or asks for very detailed explanation.
+- Novice: user says beginner, zero-base, non-CS, self-taught, confused, or asks for a beginner-friendly explanation.
 - Intermediate: user has some foundation, wants reasoning, or does not specify level.
 - Engineer: user asks for engineering perspective, code review style, architecture, risk, maintainability, or verification.
 
 Profiles cannot activate this skill by themselves.
+
+Depth modifiers after activation:
+
+- Compact: user asks for a short version, quick summary, or summary only.
+- Standard: no depth modifier.
+- Deep: user asks for a detailed, very detailed, slow, principle-oriented, or no-skipped-details explanation. In Chinese, requests such as "详细讲", "讲慢一点", "多讲一点", or "我是小白，详细讲" should route to Deep.
+- Exhaustive: user asks for line-by-line, block-by-block, every change, or explain everything.
+
+Depth modifiers cannot activate this skill by themselves.
 
 ## Modes
 
@@ -240,10 +249,10 @@ Output depth:
 
 - Compact: user asks for "shorter", "quick version", or "summary only". Compress output and keep only the learning-critical path, risks, and takeaways; in Diff Walkthrough Mode, summarize or omit Rebuild Path if it would make the answer too long.
 - Standard: no depth modifier. Use the suggested budgets above.
-- Deep: user explicitly asks for "very detailed", "deep dive", "do not skip details", or "explain the principles". Allow longer explanations and expand concepts, data/control flow, design rationale, alternatives, and transfer patterns.
+- Deep: user explicitly asks for "detailed", "very detailed", "slow explanation", "deep dive", "do not skip details", or "explain the principles". Allow longer explanations and expand concepts, data/control flow, design rationale, alternatives, and transfer patterns. In Chinese, route "详细讲", "讲慢一点", "多讲一点", and "我是小白，详细讲" to Deep after explicit activation.
 - Exhaustive: user explicitly asks for "line by line", "block by block", "explain everything", or "walk every change". Prioritize completeness, including line-by-line or block-by-block explanation when requested, but split large code or diffs into numbered parts instead of producing an unreadable wall of text.
 
-Deep and Exhaustive must be explicitly requested after activation. Ordinary words such as "beginner", "explain", or "teach me" do not remove size controls.
+Deep and Exhaustive must be explicitly requested after activation. Ordinary words such as "beginner", "explain", or "teach me" do not remove size controls unless paired with a clear detail/depth request.
 
 Use a batch summary instead of one card per edit when a diff exceeds about 300 lines, more than 6 files changed, changes span multiple features/refactors, or cards were not emitted progressively during implementation.
 

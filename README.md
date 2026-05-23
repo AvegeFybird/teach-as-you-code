@@ -60,9 +60,10 @@ Skill 激活后，它会根据你的请求选择一个 Mode、一个 Audience Pr
 | `解释这个 diff / 最近 AI 改了什么` | Diff Walkthrough Mode | Intermediate | Standard |
 | `解释这段代码 / 这个函数 / 这个文件` | Code Explanation Mode | Intermediate | Standard |
 | `我是小白 / 非 CS / 自学` | Mode unchanged | Novice | Standard |
+| `我是小白，详细讲 / 讲慢一点` | Mode unchanged | Novice | Deep |
 | `从工程师角度 / 看架构风险` | Mode unchanged | Engineer | Standard |
 | `简短一点 / summary only` | Mode unchanged | Profile unchanged | Compact |
-| `非常详细 / deep dive` | Mode unchanged | Profile unchanged | Deep |
+| `详细讲 / 非常详细 / deep dive` | Mode unchanged | Profile unchanged | Deep |
 | `逐行讲 / explain everything` | Mode unchanged | Profile unchanged | Exhaustive |
 
 三个 Mode 的重点：

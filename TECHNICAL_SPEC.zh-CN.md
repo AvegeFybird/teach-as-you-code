@@ -35,13 +35,13 @@ Version 1.0 / 2026-05-18
       -> 已有改动 / diff：Diff Walkthrough Mode
       -> 代码片段 / 文件 / 模块：Code Explanation Mode
   -> 判断 Audience Profile：
-      -> 小白 / 非 CS / 要求详细：Novice
+      -> 小白 / 非 CS / 自学：Novice
       -> 未指定 / 有一定基础：Intermediate
       -> 工程视角 / review / 风险 / 取舍：Engineer
   -> 判断 Output Depth：
       -> 未指定：Standard
       -> 简短 / 摘要：Compact
-      -> 非常详细 / 深入：Deep
+      -> 详细 / 非常详细 / 讲慢一点 / 深入：Deep
       -> 逐行 / 全部讲清楚：Exhaustive
   -> 判断输入规模：
       -> 小：一张聚焦卡片
@@ -69,7 +69,7 @@ Modes：
 
 Audience Profiles：
 
-- Novice：小白档，概念优先，非常详细。
+- Novice：小白档，概念优先，术语解释更充分。
 - Intermediate：有基础档，推理优先，默认档。
 - Engineer：工程师档，取舍优先，关注架构、风险和验证。
 
@@ -131,9 +131,18 @@ Output Depths：
 | 用户想在后续编码过程中边做边学 | Teaching Card Mode | 默认 Intermediate，除非另有指定 |
 | 用户询问已有改动、git diff 或最近 AI 修改 | Diff Walkthrough Mode | 默认 Intermediate，除非另有指定 |
 | 用户要求解释代码片段、文件、函数、类或模块 | Code Explanation Mode | 默认 Intermediate，除非另有指定 |
-| 用户说小白、零基础、非 CS、自学、要非常详细 | 当前 Mode | Novice |
+| 用户说小白、零基础、非 CS、自学，或要求面向初学者 | 当前 Mode | Novice |
 | 用户说有一定基础、想看设计思路，或未指定水平 | 当前 Mode | Intermediate |
 | 用户要求工程师视角、code review、架构、风险、可维护性或验证策略 | 当前 Mode | Engineer |
+
+Output Depth 在 Profile 之后单独判断：
+
+| 激活后的信号 | Depth |
+|---|---|
+| 没有指定深度 | Standard |
+| 用户说简短、快速版、只要摘要 | Compact |
+| 用户说详细、非常详细、讲慢一点、多讲一点、不要省略细节、讲清楚原理 | Deep |
+| 用户说逐行讲、逐块讲、全部讲清楚、每个改动都走一遍 | Exhaustive |
 
 如果 Skill 已激活，但 Mode 和 Profile 仍不清楚，问一个简短澄清问题。
 
@@ -279,7 +288,7 @@ bug、边界情况、隐藏假设或可读性问题。
 
 ### 6.1 Novice Profile
 
-面向真正的小白、非 CS 学习者、自学者，以及要求非常详细解释的用户。
+面向真正的小白、非 CS 学习者、自学者，以及要求面向初学者解释的用户。
 
 风格：
 
@@ -463,13 +472,13 @@ Engineer:
 
 ### 8.2 输出深度控制
 
-第 8.1 的长度预算是默认 Standard 深度。Deep 或 Exhaustive 输出必须在 Skill 激活后由用户明确要求；普通的“小白”“解释一下”“教我”不会自动取消长度控制。
+第 8.1 的长度预算是默认 Standard 深度。Deep 或 Exhaustive 输出必须在 Skill 激活后由用户明确要求；普通的“小白”“解释一下”“教我”不会自动取消长度控制，除非同时包含明确的详细程度要求。
 
 | 深度 | 激活后的示例触发词 | 行为 |
 |---|---|---|
 | Compact | “简短一点”“快速版”“只要摘要” | 压缩输出，只保留学习关键路径、风险和记忆点。 |
 | Standard | 没有指定深度 | 使用 8.1 的建议预算。 |
-| Deep | “非常详细”“讲深一点”“不要省略细节”“把原理讲清楚” | 允许更长解释，展开概念、数据流/控制流、设计理由、替代方案和迁移模式。 |
+| Deep | “详细讲”“非常详细”“讲慢一点”“多讲一点”“讲深一点”“不要省略细节”“把原理讲清楚”“我是小白，详细讲” | 允许更长解释，展开概念、数据流/控制流、设计理由、替代方案和迁移模式。 |
 | Exhaustive | “逐行讲”“逐块讲”“全部讲清楚”“每个改动都走一遍” | 优先完整性而不是简短，但内容过大时应拆成多个 Part，而不是一次输出难以阅读的长墙。 |
 
 Deep 和 Exhaustive 仍然是受控模式，不是无限输出。遇到很长的代码或 diff 时，先给目录或学习地图，再按编号 Part 分段继续。每个 Part 都应有清晰范围和停止点。

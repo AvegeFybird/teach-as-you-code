@@ -37,13 +37,13 @@ User request
       -> existing changes/diff: Diff Walkthrough Mode
       -> code snippet/file/module: Code Explanation Mode
   -> Determine Audience Profile:
-      -> beginner/non-CS/detailed: Novice
+      -> beginner/non-CS/self-taught: Novice
       -> unspecified or some foundation: Intermediate
       -> engineering/review/risk/tradeoffs: Engineer
   -> Determine Output Depth:
       -> unspecified: Standard
       -> shorter / summary: Compact
-      -> very detailed / deep dive: Deep
+      -> detailed / very detailed / slow explanation / deep dive: Deep
       -> line-by-line / explain everything: Exhaustive
   -> Determine input size:
       -> small: one focused card
@@ -71,7 +71,7 @@ Modes:
 
 Audience Profiles:
 
-- Novice: concept-first, detailed, beginner-friendly.
+- Novice: concept-first, terminology-explicit, beginner-friendly.
 - Intermediate: reasoning-first, balanced depth, default profile.
 - Engineer: tradeoff-first, risk-aware, architecture-oriented.
 
@@ -133,9 +133,18 @@ Once the Skill is explicitly activated, route the request using this table.
 | User wants explanations during future coding steps | Teaching Card Mode | Default Intermediate unless specified |
 | User asks about existing changes, a git diff, or recent AI edits | Diff Walkthrough Mode | Default Intermediate unless specified |
 | User asks to explain a code snippet, file, function, class, or module | Code Explanation Mode | Default Intermediate unless specified |
-| User says beginner, zero-base, non-CS, self-taught, or asks for very detailed explanation | Current Mode | Novice |
+| User says beginner, zero-base, non-CS, self-taught, or asks for beginner-friendly explanation | Current Mode | Novice |
 | User says they have some foundation, wants design reasoning, or does not specify level | Current Mode | Intermediate |
 | User asks for engineer perspective, code review style, architecture, risk, maintainability, or verification | Current Mode | Engineer |
+
+Then choose Output Depth separately:
+
+| Signal after activation | Depth |
+|---|---|
+| No depth modifier | Standard |
+| User asks for shorter, quick version, or summary only | Compact |
+| User asks for detailed, very detailed, slow, no-skipped-details, or principle-oriented explanation | Deep |
+| User asks for line-by-line, block-by-block, every change, or explain everything | Exhaustive |
 
 If both Mode and Profile are unclear after activation, ask one short clarification question.
 
@@ -281,7 +290,7 @@ For long code, summarize structure first, then select the most important regions
 
 ### 6.1 Novice Profile
 
-For true beginners, non-CS learners, self-taught learners, and users who ask for very detailed explanations.
+For true beginners, non-CS learners, self-taught learners, and users who ask for beginner-friendly explanations.
 
 Style:
 
@@ -465,13 +474,13 @@ These are implementation guidelines, not hard protocol limits.
 
 ### 8.2 Output Depth Controls
 
-Length budgets are the default Standard depth. Deep or exhaustive output must be explicitly requested after activation; ordinary words such as "beginner", "explain", or "teach me" do not remove size controls.
+Length budgets are the default Standard depth. Deep or exhaustive output must be explicitly requested after activation; ordinary words such as "beginner", "explain", or "teach me" do not remove size controls unless paired with a clear detail/depth request.
 
 | Depth | Example triggers after activation | Behavior |
 |---|---|---|
 | Compact | "shorter", "quick version", "summary only" | Compress output, keep only the learning-critical path, risks, and takeaways. |
 | Standard | no depth modifier | Use the suggested budgets in 8.1. |
-| Deep | "very detailed", "deep dive", "do not skip details", "explain the principles" | Allow longer explanations, expand concepts, data/control flow, design rationale, alternatives, and transfer patterns. |
+| Deep | "detailed", "very detailed", "slow explanation", "deep dive", "do not skip details", "explain the principles", "I am a beginner; explain in detail" | Allow longer explanations, expand concepts, data/control flow, design rationale, alternatives, and transfer patterns. |
 | Exhaustive | "line by line", "block by block", "explain everything", "walk every change" | Prioritize completeness over brevity, but split into parts when needed instead of producing an unreadable wall of text. |
 
 Deep and Exhaustive are still controlled modes, not unlimited output. For very large code or diffs, first provide a table of contents or learning map, then continue in numbered parts. Each part should have a clear scope and stopping point.
