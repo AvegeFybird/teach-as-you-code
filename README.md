@@ -153,13 +153,13 @@ Codex 会从 `$CODEX_HOME/skills` 读取本地 Skill。把这个仓库放到对�
 Windows PowerShell 示例：
 
 ```powershell
-git clone https://github.com/AvegeFybird/teach-as-you-code.git "$env:CODEX_HOME\skills\teach-as-you-code"
+git clone https://github.com/FyWing/teach-as-you-code.git "$env:CODEX_HOME\skills\teach-as-you-code"
 ```
 
 macOS / Linux 示例：
 
 ```bash
-git clone https://github.com/AvegeFybird/teach-as-you-code.git "${CODEX_HOME:-$HOME/.codex}/skills/teach-as-you-code"
+git clone https://github.com/FyWing/teach-as-you-code.git "${CODEX_HOME:-$HOME/.codex}/skills/teach-as-you-code"
 ```
 
 如果你不是通过 git 安装，也可以让最终目录结构保持为：
